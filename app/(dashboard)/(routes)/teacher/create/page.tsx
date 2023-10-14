@@ -27,7 +27,7 @@ const formSchema = z.object({
   }),
 });
 
-const page = () => {
+const page= () => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,7 +42,7 @@ const page = () => {
     console.log(values);
 
     try {
-      const response = await axios.post("/api/courses", values);
+      const response = await axios.post("/api/courses", {title:values.title});
       console.log(response);
       
       router.push(`/teacher/courses/${response.data.course._id}`);

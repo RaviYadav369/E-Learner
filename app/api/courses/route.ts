@@ -8,14 +8,14 @@ export async function POST(req: Request) {
     connectToDb();
     const { userId } = auth();
     const { title } = await req.json();
-    // console.log(userId, title);
+    console.log(userId);
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const course = await Course.create({
-        title,
+      title,
     });
 
     return NextResponse.json({course},{status:200});
@@ -24,3 +24,4 @@ export async function POST(req: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+

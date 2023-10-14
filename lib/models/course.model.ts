@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const courseSchema = new mongoose.Schema({
-  userId: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema({
   },
   description: String,
   imageUrl: String,
-  price: Float32Array,
+  price: Number,
   isPublished: Boolean,
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
