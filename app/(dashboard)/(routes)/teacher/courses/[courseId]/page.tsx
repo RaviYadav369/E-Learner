@@ -3,6 +3,8 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import React from "react";
 import TitleForm from "./_components/TitleForm";
+import DescriptionForm from "./_components/DescriptionForm";
+import ImageForm from "./_components/ImageForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -47,6 +49,8 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               </h2>
             </div>
             <TitleForm initialData={course} courseId={course._id} />
+            <DescriptionForm initialData={course} courseId={course._id} />
+            <ImageForm initialData={course} courseId={course._id} />
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React from "react";
 import * as z from "zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -27,14 +28,16 @@ type props = {
 };
 
 const formSchema = z.object({
-  title: z.string().min(3, {
-    message: "Title is required",
+  description: z.string().min(3, {
+    message: "Description is required",
   }),
 });
 
-const TitleForm = ({ initialData, courseId }: props) => {
+const DescriptionForm = ({ initialData, courseId }: props) => {
+  console.log(initialData, courseId);
+
   const router = useRouter();
-  const [isEditing, setisEditing] = useState(false);
+  const [isEditing, setisEditing] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
@@ -43,9 +46,11 @@ const TitleForm = ({ initialData, courseId }: props) => {
   const handleEdit = () => setisEditing((current) => !current);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course Title Updated");
+      toast.success("Course Description Updated");
       handleEdit();
       router.refresh();
     } catch {
@@ -54,22 +59,25 @@ const TitleForm = ({ initialData, courseId }: props) => {
   };
 
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="font-semibold flex items-center justify-between">
-        Course Title
-        <Button onClick={handleEdit} variant="ghost">
-          {isEditing ? (
-            "Cancel"
-          ) : (
-            <>
-              <BiPencil className="h-4 w-4  mr-2" />
-              Edit title
-            </>
-          )}
-        </Button>
-      </div>
-      {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
-     {isEditing && (
+    <>
+      <div className="mt-6 border bg-slate-100 rounded-md p-4">
+        <div className="font-semibold flex items-center justify-between">
+          Course Description
+          <Button onClick={handleEdit} variant="ghost">
+            {isEditing ? (
+              "Cancel"
+            ) : (
+              <>
+                <BiPencil className="h-4 w-4 mr-2" />
+                Edit Description
+              </>
+            )}
+          </Button>
+        </div>
+        {!isEditing && (
+          <p className="text-sm mt-2">{initialData.description}</p>
+        )}
+       {isEditing && (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -77,13 +85,13 @@ const TitleForm = ({ initialData, courseId }: props) => {
           >
             <FormField
               control={form.control}
-              name="title"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="e.g. Advanced Web Development Course"
+                      placeholder="e.g. This course is good"
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -99,8 +107,9 @@ const TitleForm = ({ initialData, courseId }: props) => {
           </form>
         </Form>
       )}
-    </div>
+      </div>
+    </>
   );
 };
 
-export default TitleForm;
+export default DescriptionForm;

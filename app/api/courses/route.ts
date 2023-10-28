@@ -25,3 +25,18 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PATCH(req:Request){
+  try {
+    connectToDb()
+    const values =await req.json()
+
+    // const coursesList = await Course.find((each)=>{
+    //   each.order
+    // })
+    
+  } catch (error:any) {
+    console.log("[COURSES]:error");
+    return new NextResponse("Internal Error",{status:500})    
+  }
+}
+
