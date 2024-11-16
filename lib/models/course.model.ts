@@ -13,10 +13,12 @@ const courseSchema = new mongoose.Schema({
   imageUrl: String,
   price: Number,
   isPublished: Boolean,
-  categoryId: {
+  categoryId: String,
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
+  attachments: Array,
   createdAt: {
     type: Date,
     default: Date.now,

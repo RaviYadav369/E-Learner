@@ -39,11 +39,11 @@ const page= () => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    // console.log(values);
 
     try {
       const response = await axios.post("/api/courses", {title:values.title});
-      console.log(response);
+      // console.log(response);
       
       router.push(`/teacher/courses/${response.data.course._id}`);
       toast.success('Course Created Success')
@@ -88,7 +88,7 @@ const page= () => {
             <div className="flex items-center gap-x-2">
               <Link href="/teacher">
                 <Button variant="ghost" type="button">
-                  Cancle
+                  Cancel
                 </Button>
               </Link>
               <Button type="submit" disabled={!isValid || isSubmitting}>

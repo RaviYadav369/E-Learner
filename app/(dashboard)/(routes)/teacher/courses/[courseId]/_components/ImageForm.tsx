@@ -84,7 +84,7 @@ const ImageForm = ({ initialData, courseId }: props) => {
             endpoint="courseImage"
             onChange={(url) => {
               if (url) {
-                console.log(url);
+                // console.log(url);
                 
                 onSubmit({ imageUrl: url });
               }

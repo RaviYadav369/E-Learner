@@ -1,4 +1,5 @@
 import { connectToDb } from "@/lib/db";
+import Category from "@/lib/models/category.model";
 import Course from "@/lib/models/course.model";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -25,14 +26,12 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PATCH(req:Request){
+export async function GET(req:Request){
   try {
     connectToDb()
-    const values =await req.json()
-
-    // const coursesList = await Course.find((each)=>{
-    //   each.order
-    // })
+  
+    const coursesList = await Category.find({$sort:"desc"})
+    return  NextResponse.json({coursesList},{status:200})
     
   } catch (error:any) {
     console.log("[COURSES]:error");

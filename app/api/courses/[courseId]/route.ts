@@ -1,4 +1,5 @@
 import { connectToDb } from "@/lib/db";
+import Attachment from "@/lib/models/attachments.model";
 import Course from "@/lib/models/course.model";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -14,8 +15,12 @@ export async function GET(req: Request, { params }: props) {
     connectToDb();
     const { courseId } = params;
 
-    const courses = await Course.findById({ _id: courseId });
+    const courses = await Course.findById({ _id: courseId }).populate({
+      path: "attachments",
+      model: Attachment,
+    });
 
+    console.log(courses);
     return new Response(JSON.stringify(courses), { status: 200 });
   } catch (error: any) {
     console.log("[COURSES]", error);
@@ -32,7 +37,6 @@ export async function PATCH(req: Request, { params }: props) {
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
     const course = await Course.findOneAndUpdate(
       { _id: courseId },
       {

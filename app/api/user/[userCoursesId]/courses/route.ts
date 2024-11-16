@@ -9,6 +9,7 @@ type props={
 export async function GET(req:Request, { params }:props){
     try {
       connectToDb()
+      console.log("courses------------",params.userCoursesId)
       const courses= await Course.findById({userId:params.userCoursesId});
       console.log("from backend",courses)
       return new Response(JSON.stringify(courses ), { status: 200 });
