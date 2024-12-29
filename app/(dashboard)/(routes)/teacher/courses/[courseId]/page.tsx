@@ -8,8 +8,14 @@ import ImageForm from "./_components/ImageForm";
 import CategoryForm from "./_components/CategoryForm";
 import PriceForm from "./_components/PriceForm";
 import { IconBadge } from "@/components/icon-badge";
-import { CircleDollarSign, File, LayoutDashboard } from "lucide-react";
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 import AttachmentForm from "./_components/AttachmentForm";
+import ChaptersForm from "./_components/ChaptersForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -35,6 +41,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     course.imageUrl,
     course.price,
     course.categoryId,
+    course.chapters.some((chapter: { isPublished: any; }) => chapter.isPublished)
   ];
 
   const totlaFields = requiredFields.length;
@@ -55,7 +62,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
           <div>
             <div className="flex items-center gap-x-2">
-            <IconBadge icon={LayoutDashboard} />
+              <IconBadge icon={LayoutDashboard} />
 
               <h2 className="text-lg">Customised Your Course</h2>
             </div>
@@ -74,10 +81,11 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
           <div>
             <div className="space-y-6">
               <div className="flex items-center gap-x-2">
-                <h2>Course Chapter </h2>
+                <IconBadge icon={ListChecks} />
+                <h2 className="text-xl">Course Chapter </h2>
               </div>
 
-              <div>Todo Chapter</div>
+              <ChaptersForm initialData={course} courseId={course._id} />
 
               <div>
                 <div className="flex items-center gap-x-2">
@@ -91,7 +99,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                   <IconBadge icon={File} />
                   <h2 className="text-lg">Resources & Attachment</h2>
                 </div>
-                  <AttachmentForm initialData={course} courseId={course._id} />
+                <AttachmentForm initialData={course} courseId={course._id} />
               </div>
             </div>
           </div>

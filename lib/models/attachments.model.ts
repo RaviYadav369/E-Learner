@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const attachmentSchema = new mongoose.Schema({
   name: String,
   url: String,
-  courseId: String,
-  course: {
+  courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
   },

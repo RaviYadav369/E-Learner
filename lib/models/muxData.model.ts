@@ -4,7 +4,8 @@ const muxDataSchema = new mongoose.Schema({
   assetId:{type:String,require:true},
   playbackId:{type:String},
   chapterId:{
-    type:String
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Chapter'
   },
   createdAt: {
     type: Date,

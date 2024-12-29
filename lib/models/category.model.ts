@@ -5,10 +5,10 @@ const categorySchema =new  mongoose.Schema({
         type:String,
         unique:true,
     },
-    courses :{
+    courses :[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Course"
-    }
+    }]
 })
 
 const Category = mongoose.models.Category || mongoose.model("Category",categorySchema)

@@ -8,10 +8,10 @@ const chapterSchema = new mongoose.Schema({
   isPublished: { type: Boolean, default: false },
   isFree: { type: Boolean, default: false },
   muxData: Array,
-  courseId: { type: String, require: true },
-  course: {
+  courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
+    require:true,
   },
   userProgress: Array,
   createdAt: {

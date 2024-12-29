@@ -1,5 +1,6 @@
 import { connectToDb } from "@/lib/db";
 import Attachment from "@/lib/models/attachments.model";
+import Chapter from "@/lib/models/chapter.model";
 import Course from "@/lib/models/course.model";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -15,10 +16,19 @@ export async function GET(req: Request, { params }: props) {
     connectToDb();
     const { courseId } = params;
 
-    const courses = await Course.findById({ _id: courseId }).populate({
+    const courses = await Course.findById({ _id: courseId })
+    .populate({
       path: "attachments",
       model: Attachment,
-    });
+    })
+    .populate({
+      path:'chapters',
+      model:Chapter,
+      options:{
+        sort:{_id:-1}
+      }
+    })
+    ;
 
     console.log(courses);
     return new Response(JSON.stringify(courses), { status: 200 });

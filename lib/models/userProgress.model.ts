@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const progressSchema = new mongoose.Schema({
   userId:{type:String,require:true},
-  chapterId:{type:String,require:true,},
-  chapter:{
+  chapterId:{
     type:mongoose.Schema.Types.ObjectId,
-    ref:"Chapter"
+    ref:"Chapter",
+    required:true
   },
   isCompleted:{type:Boolean, default:false},
 

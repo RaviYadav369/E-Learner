@@ -5,6 +5,7 @@ const courseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  userId:{type:String},
   title: {
     type: String,
     require: true,
@@ -13,12 +14,12 @@ const courseSchema = new mongoose.Schema({
   imageUrl: String,
   price: Number,
   isPublished: Boolean,
-  categoryId: String,
-  category: {
+  categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
   attachments: Array,
+  chapters:Array,
   createdAt: {
     type: Date,
     default: Date.now,
