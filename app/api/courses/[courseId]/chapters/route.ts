@@ -19,10 +19,16 @@ export async function POST(req: Request, { params }: props) {
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+    const lastChapter = await Chapter.find({
+      courseId: params.courseId,
+    }).sort({ position: "desc" });
+    const newPosition = lastChapter.length > 0 ? parseInt(lastChapter[0].position, 10) + 1 : 1;
+
     const chapter = await Chapter.create({
       ...values,
+      courseId,
+      position: newPosition,
     });
-    console.log(chapter);
 
     await Course.findByIdAndUpdate(
       courseId,

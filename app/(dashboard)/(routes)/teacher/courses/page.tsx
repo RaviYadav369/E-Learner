@@ -10,11 +10,13 @@ const page = async () => {
 
   if (!userId) redirect("/");
 
-    const courseData = await fetch(`http://localhost:3000/api/user/${userId}/courses`,{method:"GET"});
-  //  const courses = await courseData.json();
-  //  console.log(courses);
+  const courseData = await fetch(
+    `http://localhost:3000/api/user/${userId}/courses`,
+    { method: "GET" }
+  );
+  const courses = await courseData.json();
 
-  let courses: any = [];
+  // let courses: any = [];
 
   return (
     <div>

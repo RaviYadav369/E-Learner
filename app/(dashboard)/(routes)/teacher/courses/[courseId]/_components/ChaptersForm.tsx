@@ -48,8 +48,6 @@ const ChaptersForm = ({ initialData, courseId }: props) => {
   const toggleCreating = () => setisCreating((current) => !current);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // console.log(values);
-
     try {
       await axios.post(`/api/courses/${courseId}/chapters`, values);
       toast.success("Chapter Created");
@@ -63,7 +61,6 @@ const ChaptersForm = ({ initialData, courseId }: props) => {
   const handelRecord = async (
     updatedData: { _id: string; position: number }[]
   ) => {
-    console.log("this is updated data", updatedData);
     try {
       setisUpdating(true);
       await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
@@ -77,15 +74,18 @@ const ChaptersForm = ({ initialData, courseId }: props) => {
       setisUpdating(false);
     }
   };
+  const onEdit = (chapterId: string) => {
+    router.push(`/teacher/courses/${courseId}/chapters/${chapterId}`);
+  };
 
   return (
     <>
       <div className=" relative mt-6 border bg-slate-100 rounded-md p-4">
-      {isUpdating &&(
-        <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
-          <Loader2 className='animate-spin h-6 w-6 text-sky-700' />
-        </div>
-      )}
+        {isUpdating && (
+          <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-md flex items-center justify-center">
+            <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
+          </div>
+        )}
         <div className="font-semibold flex items-center justify-between">
           Course Chapter
           <Button onClick={toggleCreating} variant="ghost">
@@ -139,7 +139,7 @@ const ChaptersForm = ({ initialData, courseId }: props) => {
 
             <ChapterList
               onEdit={(id) => {
-                console.log(id);
+                onEdit(id);
               }}
               onRecorder={handelRecord}
               items={initialData.chapters || []}

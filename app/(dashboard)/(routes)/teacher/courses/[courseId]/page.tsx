@@ -34,7 +34,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     method: "GET",
   });
   const categoryData = await response.json();
-
   const requiredFields = [
     course.title,
     course.description,

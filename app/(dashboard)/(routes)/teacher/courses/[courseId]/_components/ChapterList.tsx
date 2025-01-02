@@ -13,8 +13,8 @@ import { Grip, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface ChapterListProps {
-  items: any;
-  // items: (typeof Chapter)[];
+  // items: any;
+  items: typeof Chapter[];
   onRecorder: (updateData: { _id: string; position: number }[]) => void;
   onEdit: (id: string) => void;
 }
@@ -37,21 +37,12 @@ const ChapterList = ({ items, onRecorder, onEdit }: ChapterListProps) => {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
-    const startIndex = Math.min(result.source.index, result.destination.index);
-    const endIndex = Math.max(result.source.index, result.destination.index);
-    const updatedChapters = items.slice(startIndex, endIndex);
-
-    console.log('this is updated items',items)
-    console.log('this is updated chapter',updatedChapters)
-
     setchapters(items);
-
-    const bulkUpdateData = updatedChapters.map((chapter: any) => ({
+    const updatedChapters = items.map((chapter: any, index: number) => ({
       _id: chapter._id,
-      position: items.findIndex((item: any) => item._id === chapter._id),
+      position: index + 1, 
     }));
-    console.log('this is bulk update', bulkUpdateData)
-    onRecorder(bulkUpdateData);
+    onRecorder(updatedChapters);
   };
 
   if (!isMounted) {
@@ -60,18 +51,18 @@ const ChapterList = ({ items, onRecorder, onEdit }: ChapterListProps) => {
 
   return (
     <>
+    
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="chapters" type="chapter">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {chapters.map((chapter: any, index: number) => (
+              {chapters.map((chapter: typeof Chapter, index: number) => (
                 <Draggable
                   key={chapter._id}
                   draggableId={chapter._id}
                   index={index}
                 >
                   {(provided) => (
-                    <>
                       <div
                         className={cn(
                           "flex items-center gap-x-2 bg-slate-200 border-slate-200 border text-slate-700 rounded-md mb-4 text-sm",
@@ -103,16 +94,14 @@ const ChapterList = ({ items, onRecorder, onEdit }: ChapterListProps) => {
                             {chapter.isPublished ? "Published" : "Draft"}
                           </Badge>
                           <Pencil
-                            onClick={() => onEdit(chapter.id)}
+                            onClick={() => onEdit(chapter._id)}
                             className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
                           />
                         </div>
                       </div>
-                    </>
                   )}
                 </Draggable>
               ))}
-              <h2>This is Droppable</h2>
               {provided.placeholder}
             </div>
           )}

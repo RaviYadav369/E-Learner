@@ -11,7 +11,7 @@ interface props {
     path: string;
   }
 
-export async function PATCH({
+export async function PATCH(req: Request,{
     userId,
     username,
     name,
@@ -38,9 +38,16 @@ export async function PATCH({
     }
   }
 
-export async function GET(userId: string) {
+type Props  ={
+  params: {
+    userId: string;
+  };
+}
+
+export async function GET(req: Request, { params }: Props) {
     try {
       connectToDb();
+      const { userId } = params;
       return await User.findOne({ id: userId })
       // .populate({path:'communities',model:Communit})
     } catch (error: any) {

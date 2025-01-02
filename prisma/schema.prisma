@@ -7,11 +7,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-<<<<<<< HEAD
   url      = "mongodb-Url"
-=======
-  url      = "mongodb+srv://test:xxxxx@cluster0.29dh9tc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
->>>>>>> f82eb25144bde03267eb31e2915d9b9742413c8a
 }
 
 model Course {

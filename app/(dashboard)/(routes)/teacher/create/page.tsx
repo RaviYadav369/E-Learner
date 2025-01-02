@@ -27,7 +27,7 @@ const formSchema = z.object({
   }),
 });
 
-const page= () => {
+const Page= () => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,11 +39,10 @@ const page= () => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // console.log(values);
 
     try {
       const response = await axios.post("/api/courses", {title:values.title});
-      console.log(response);
+      // console.log(response);
       
       router.push(`/teacher/courses/${response.data.course._id}`);
       toast.success('Course Created Success')
@@ -57,8 +56,7 @@ const page= () => {
       <div className="text-2xl">
         <h2 className="text-2xl">Name Your Courses</h2>
         <p className="text-sm text-slate-600">
-          What Would you like to name your courses? Don't worry, you can change
-          this later.
+          What Would you like to name your courses? Don&apos;t worry, you can change this later.
         </p>
         <Form {...form}>
           <form
@@ -102,4 +100,4 @@ const page= () => {
   );
 };
 
-export default page;
+export default Page;

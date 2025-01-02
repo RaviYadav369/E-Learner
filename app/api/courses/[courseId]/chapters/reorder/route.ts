@@ -1,3 +1,4 @@
+import Chapter from "@/lib/models/chapter.model";
 import Course from "@/lib/models/course.model";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -12,9 +13,8 @@ export async function PUT(
       return new NextResponse("Unauthorised", { status: 401 });
     }
     const { list } = await req.json();
-    console.log("this is  list ", list);
-    const ownCourse = await Course.findById({
-      id: params.courseId,
+    const ownCourse = await Course.find({
+      _id:params.courseId,
       userId: userId,
     });
     if (!ownCourse) {
@@ -22,7 +22,7 @@ export async function PUT(
     }
 
     for (let item of list) {
-      await Course.findByIdAndUpdate(
+      await Chapter.findByIdAndUpdate(
         item._id,
         {
           position: item.position,

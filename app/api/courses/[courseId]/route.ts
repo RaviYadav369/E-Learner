@@ -17,20 +17,17 @@ export async function GET(req: Request, { params }: props) {
     const { courseId } = params;
 
     const courses = await Course.findById({ _id: courseId })
-    .populate({
-      path: "attachments",
-      model: Attachment,
-    })
-    .populate({
-      path:'chapters',
-      model:Chapter,
-      options:{
-        sort:{_id:-1}
-      }
-    })
-    ;
-
-    console.log(courses);
+      .populate({
+        path: "attachments",
+        model: Attachment,
+      })
+      .populate({
+        path: "chapters",
+        model: Chapter,
+        options: {
+          sort: { position: 1 },
+        },
+      });
     return new Response(JSON.stringify(courses), { status: 200 });
   } catch (error: any) {
     console.log("[COURSES]", error);
