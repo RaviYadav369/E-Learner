@@ -13,10 +13,9 @@ type props = {
   };
 };
 
-
 const Video = new Mux({
   tokenId: process.env["MUX_TOKEN_ID"],
-  tokenSecret: process.env["MUX_TOKEN_SECRET"], 
+  tokenSecret: process.env["MUX_TOKEN_SECRET"],
 });
 
 export async function GET(req: Request, { params }: props) {
@@ -49,6 +48,30 @@ export async function PATCH(req: Request, { params }: props) {
     if (!ownCourse) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+    if (typeof isPublished !=='undefined') {
+      const chapter = await Chapter.findByIdAndUpdate(
+        chapterId,
+        { isPublished: isPublished },
+        { new: true }
+      );
+    }
+
+
+    const publishedChapterInCourse = await Chapter.find({
+      courseId: courseId,
+      isPublished: true,
+    });
+
+    if (!publishedChapterInCourse.length) {
+      await Course.findByIdAndUpdate(
+        params.courseId,
+        {
+          isPublished: false,
+        },
+        { new: true }
+      );
+    }
+
 
     const chapter = await Chapter.findByIdAndUpdate(
       chapterId,
@@ -56,35 +79,66 @@ export async function PATCH(req: Request, { params }: props) {
       { new: true }
     );
 
-    if (values.videoUrl) {
+    return NextResponse.json({ chapter }, { status: 200 });
+  } catch (error: any) {
+    console.log("[CHAPTER]", error);
+    throw new Error("Internal Error");
+  }
+}
+
+export async function DELETE(req: Request, { params }: props) {
+  try {
+    const {userId} = auth();
+    const { courseId, chapterId } = params;
+
+    const ownCourse = await Course.findOne({ _id: courseId, userId });
+    if (!ownCourse) {
+      return new NextResponse("Unauthorised", { status: 401 });
+    }
+    const chapter = await Chapter.findOne({
+      _id: chapterId,
+      courseId: courseId,
+    });
+
+    if (!chapter) {
+      return new NextResponse("Not find Chapter", { status: 404 });
+    }
+
+    if (chapter.videoUrl) {
       const existingMuxData = await MuxData.findOne({
-        chapterId: params.chapterId,
+        chapterId: chapterId,
       });
       if (existingMuxData) {
         await Video.video.assets.delete(existingMuxData.assetId);
-        await MuxData.deleteOne({ _id: existingMuxData._id });
+        await MuxData.findByIdAndDelete(chapter.muxData);
       }
     }
 
-    const asset = await Video.video.assets.create({
-      input: values.videoUrl,
-      playback_policy: ["public"],
-      test: false,
+  
+    const deletedChapter = await Chapter.findByIdAndDelete(chapterId);
+
+    const publishedChapterInCourse = await Chapter.find({
+      courseId: courseId,
+      isPublished: true,
     });
-    const muxdata = await MuxData.create({
-      chapterId: params.chapterId,
-      assetId: asset.id,
-      playbackId: asset.playback_ids?.[0]?.id,
-    });
-    await Chapter.findByIdAndUpdate(
-      chapterId,
-      {
-        $push: { muxData: muxdata._id },
-      },
+
+    if (!publishedChapterInCourse.length) {
+      await Course.findByIdAndUpdate(
+        params.courseId,
+        {
+          isPublished: false,
+        },
+        { new: true }
+      );
+    }
+
+   const course=  await Course.findByIdAndUpdate(
+      courseId,
+      {$pull: {chapters: chapterId},},
       { new: true }
     );
-
-    return NextResponse.json({ chapter }, { status: 200 });
+    console.log('thisis from chapter deleted',course)
+    return NextResponse.json({ deletedChapter }, { status: 200 });
   } catch (error: any) {
     console.log("[CHAPTER]", error);
     throw new Error("Internal Error");

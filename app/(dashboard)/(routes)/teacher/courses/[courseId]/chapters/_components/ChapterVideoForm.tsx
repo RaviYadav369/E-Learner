@@ -31,7 +31,7 @@ const ChapterVideoForm = ({ initialData, courseId,chapterId }: props) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+      await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/chapterVideo`, values);
       toast.success("Chapter Updated");
       handleEdit();
       router.refresh();
@@ -39,6 +39,7 @@ const ChapterVideoForm = ({ initialData, courseId,chapterId }: props) => {
       toast.error("Something went wrong");
     }
   };
+ 
 
   return (
     <div className="mt-6 boder bg-slate-100 rounded-md p-4">

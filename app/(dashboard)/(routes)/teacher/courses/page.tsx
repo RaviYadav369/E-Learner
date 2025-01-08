@@ -4,6 +4,8 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import CourseCard from "./CourseCard";
+import { DataTable } from "./_components/data-table";
+import { columns } from "./_components/columns";
 
 const page = async () => {
   const { userId } = auth();
@@ -19,22 +21,7 @@ const page = async () => {
   // let courses: any = [];
 
   return (
-    <div>
-      <Link href="/teacher/create">
-        <Button>New Courses</Button>
-      </Link>
-      <div>
-        {courses?.map((course: any) => {
-          return (
-            <CourseCard
-              key={course._id}
-              courseId={course._id}
-              title={course.title}
-            />
-          );
-        })}
-      </div>
-    </div>
+       <DataTable columns={columns} data={courses} />
   );
 };
 

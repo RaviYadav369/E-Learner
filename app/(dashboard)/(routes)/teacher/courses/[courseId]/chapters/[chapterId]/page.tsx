@@ -9,6 +9,8 @@ import ChapterTitleForm from "../_components/ChapterTitleForm";
 import ChapterDescriptionForm from "../_components/ChapterDescriptionForm";
 import ChapterAccessForm from "../_components/ChapterAccessForm";
 import ChapterVideoForm from "../_components/ChapterVideoForm";
+import { Banner } from "@/components/banner";
+import ChapterAction from "../_components/ChapterAction";
 
 const ChapterIdPage = async ({
   params,
@@ -23,9 +25,9 @@ const ChapterIdPage = async ({
     `http://localhost:3000/api/courses/${params.courseId}/chapters/${params.chapterId}`,
     { method: "GET" }
   );
+  
   const chapter = await data.json();
   if (!chapter) redirect("/");
-
   const requiredFields = [
     chapter.chapter.title,
     chapter.chapter.description,
@@ -36,8 +38,16 @@ const ChapterIdPage = async ({
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totlaFields})`;
 
+  const isComplete = requiredFields.every(Boolean)
+
   return (
     <>
+    {!chapter.chapter.isPublished===true && (
+      <Banner 
+      variant='warning'
+      label='This chapter is unpublished. It will not be visible in the course'
+      />
+    )}
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="w-full">
@@ -55,6 +65,12 @@ const ChapterIdPage = async ({
                   Complete all field {completionText}
                 </span>
               </div>
+              <ChapterAction
+              disabled={!isComplete}
+              courseId={params.courseId}
+              chapterId={params.chapterId}
+              isPublished={chapter.chapter.isPublished}
+              />
             </div>
           </div>
         </div>

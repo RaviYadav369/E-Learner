@@ -16,9 +16,12 @@ import {
 } from "lucide-react";
 import AttachmentForm from "./_components/AttachmentForm";
 import ChaptersForm from "./_components/ChaptersForm";
+import CourseAction from "./_components/CourseAction";
+import { Banner } from "@/components/banner";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
+
 
   if (!userId) redirect("/");
 
@@ -26,13 +29,15 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     `http://localhost:3000/api/courses/${params.courseId}`,
     { method: "GET" }
   );
-  const course = await data.json();
+
+  const text = await data.text(); 
+  const course = JSON.parse(text); 
   if (!course) redirect("/");
-  // console.log(course);
 
   const response = await fetch(`http://localhost:3000/api/courses`, {
     method: "GET",
   });
+
   const categoryData = await response.json();
   const requiredFields = [
     course.title,
@@ -47,8 +52,16 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totlaFields})`;
 
+  const isComplete = requiredFields.every(Boolean)
+
   return (
     <>
+      {!course.isPublished===true && (
+          <Banner 
+          variant='warning'
+          label='This Course is unpublished. It will not be visible in the Your Published List'
+          />
+        )}
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
@@ -57,6 +70,13 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               Complete All Fields {completionText}
             </span>
           </div>
+          <CourseAction
+          disabled={!isComplete}
+          courseId={params.courseId}
+          isPublished={course.isPublished}
+
+          />
+
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
           <div>

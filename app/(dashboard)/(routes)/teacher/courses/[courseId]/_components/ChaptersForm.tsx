@@ -132,10 +132,10 @@ const ChaptersForm = ({ initialData, courseId }: props) => {
           <div
             className={cn(
               "text-sm mt-2",
-              !initialData.chapters.length && "text-slate-500 italic"
+              !initialData.chapters?.length && "text-slate-500 italic"
             )}
           >
-            {!initialData.chapters.length && "No Chapters"}
+            {!initialData.chapters?.length && "No Chapters"}
 
             <ChapterList
               onEdit={(id) => {

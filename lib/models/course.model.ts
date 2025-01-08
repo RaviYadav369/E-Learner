@@ -1,6 +1,21 @@
 import mongoose from "mongoose";
 
-const courseSchema = new mongoose.Schema({
+export interface ICourse extends Document {
+  _id:string
+  creator: mongoose.Types.ObjectId; // Reference to User
+  userId: string;
+  title: string; // Required
+  description?: string; // Optional
+  imageUrl?: string; // Optional
+  price?: number; // Optional
+  isPublished: boolean; // Optional
+  categoryId?: mongoose.Types.ObjectId; // Reference to Category
+  attachments?: any[]; // Optional, can specify a more specific type if needed
+  chapters?: any[]; // Optional, can specify a more specific type if needed
+  createdAt: Date; // Default to Date.now
+}
+
+const courseSchema = new mongoose.Schema<ICourse>({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -13,7 +28,10 @@ const courseSchema = new mongoose.Schema({
   description: String,
   imageUrl: String,
   price: Number,
-  isPublished: Boolean,
+  isPublished: {
+    type:Boolean,
+    default:false
+  },
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
@@ -26,5 +44,5 @@ const courseSchema = new mongoose.Schema({
   },
 });
 
-const Course = mongoose.models.Course || mongoose.model("Course", courseSchema);
+const Course = mongoose.models.Course || mongoose.model<ICourse>("Course", courseSchema);
 export default Course;
