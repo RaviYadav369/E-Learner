@@ -1,7 +1,7 @@
 import { connectToDb } from "@/lib/db";
 import Chapter from "@/lib/models/chapter.model";
 import Course from "@/lib/models/course.model";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 type props = {
@@ -13,7 +13,7 @@ type props = {
 export async function POST(req: Request, { params }: props) {
   try {
     connectToDb();
-    const { userId } = auth();
+    const { userId } = await auth();
     const { courseId } = params;
     const values = await req.json();
     if (!userId) {

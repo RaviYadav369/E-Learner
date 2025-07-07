@@ -1,6 +1,6 @@
 import Chapter from "@/lib/models/chapter.model";
 import Course from "@/lib/models/course.model";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function PUT(
@@ -8,7 +8,7 @@ export async function PUT(
   { params }: { params: { courseId: string } }
 ) {
   try {
-    const { userId } = auth();
+    const { userId } =await auth();
     if (!userId) {
       return new NextResponse("Unauthorised", { status: 401 });
     }

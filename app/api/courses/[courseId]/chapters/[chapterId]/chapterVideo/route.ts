@@ -1,7 +1,7 @@
 import { connectToDb } from "@/lib/db";
 import Chapter from "@/lib/models/chapter.model";
 import Course from "@/lib/models/course.model";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import Mux from "@mux/mux-node";
 import MuxData from "@/lib/models/muxData.model";
@@ -22,7 +22,7 @@ const Video = new Mux({
 export async function PATCH(req: Request, { params }: props) {
   try {
     connectToDb();
-    const { userId } = auth();
+    const { userId } =await auth();
     const { chapterId, courseId } = params;
     const { isPublished, ...values } = await req.json();
     const ownCourse = await Course.findOne({ _id: courseId, userId });

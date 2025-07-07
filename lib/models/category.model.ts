@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
-const categorySchema =new  mongoose.Schema({
+export interface ICategory extends Document {
+    _id:string;
+    name: string; // Unique category name
+    courses: mongoose.Types.ObjectId[]; // Array of references to Course
+}
+
+
+const categorySchema =new  mongoose.Schema<ICategory>({
+    _id:String,
     name:{
         type:String,
         unique:true,
@@ -11,6 +19,6 @@ const categorySchema =new  mongoose.Schema({
     }]
 })
 
-const Category = mongoose.models.Category || mongoose.model("Category",categorySchema)
+const Category = mongoose.models.Category || mongoose.model<ICategory>("Category",categorySchema)
 
 export default Category

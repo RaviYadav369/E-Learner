@@ -88,7 +88,7 @@ const ChapterAccessForm = ({ initialData, courseId, chapterId }: props) => {
             {initialData.isFree ? (
               <>This chapter is free for preview</>
             ) : (
-              <>This chpater is not free</>
+              <>This chapter is not free</>
             )}
           </div>
         )}

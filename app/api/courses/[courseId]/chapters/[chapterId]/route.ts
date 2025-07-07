@@ -1,7 +1,7 @@
 import { connectToDb } from "@/lib/db";
 import Chapter from "@/lib/models/chapter.model";
 import Course from "@/lib/models/course.model";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import Mux from "@mux/mux-node";
 import MuxData from "@/lib/models/muxData.model";
@@ -41,7 +41,7 @@ export async function GET(req: Request, { params }: props) {
 export async function PATCH(req: Request, { params }: props) {
   try {
     connectToDb();
-    const { userId } = auth();
+    const { userId } =await auth();
     const { chapterId, courseId } = params;
     const { isPublished, ...values } = await req.json();
     const ownCourse = await Course.findOne({ _id: courseId, userId });
@@ -88,7 +88,7 @@ export async function PATCH(req: Request, { params }: props) {
 
 export async function DELETE(req: Request, { params }: props) {
   try {
-    const {userId} = auth();
+    const {userId} =await auth();
     const { courseId, chapterId } = params;
 
     const ownCourse = await Course.findOne({ _id: courseId, userId });

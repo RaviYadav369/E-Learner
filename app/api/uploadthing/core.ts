@@ -1,12 +1,12 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 import { isTeacher } from "@/lib/teacher";
  
 const f = createUploadthing();
  
-const handleAuth = () => {
-  const { userId } = auth();
+const handleAuth = async() => {
+  const { userId } =await auth();
   // const isAuthorized = isTeacher(userId);
   const isAuthorized = true;
   console.log("------------",isAuthorized)

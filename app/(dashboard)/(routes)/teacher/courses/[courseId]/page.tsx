@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -20,7 +20,7 @@ import CourseAction from "./_components/CourseAction";
 import { Banner } from "@/components/banner";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
-  const { userId } = auth();
+  const { userId } =await auth();
 
 
   if (!userId) redirect("/");
@@ -34,7 +34,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = JSON.parse(text); 
   if (!course) redirect("/");
 
-  const response = await fetch(`http://localhost:3000/api/courses`, {
+  const response = await fetch(`http://localhost:3000/api/categories`, {
     method: "GET",
   });
 
@@ -91,7 +91,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             <CategoryForm
               initialData={course}
               courseId={course._id}
-              options={categoryData.coursesList.map((category: any) => ({
+              options={categoryData.categoryList.map((category: any) => ({
                 label: category.name,
                 value: category._id,
               }))}

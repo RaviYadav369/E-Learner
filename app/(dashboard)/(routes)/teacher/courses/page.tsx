@@ -1,14 +1,11 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
-import Link from "next/link";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import CourseCard from "./CourseCard";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 
 const page = async () => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) redirect("/");
 
@@ -17,8 +14,6 @@ const page = async () => {
     { method: "GET" }
   );
   const courses = await courseData.json();
-
-  // let courses: any = [];
 
   return (
        <DataTable columns={columns} data={courses} />

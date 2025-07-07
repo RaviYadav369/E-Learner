@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface ICourse extends Document {
-  _id:string
+  _id?:string
   creator: mongoose.Types.ObjectId; // Reference to User
   userId: string;
   title: string; // Required

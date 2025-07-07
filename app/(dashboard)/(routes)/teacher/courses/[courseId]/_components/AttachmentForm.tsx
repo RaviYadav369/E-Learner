@@ -87,11 +87,16 @@ const AttachmentForm = ({ initialData, courseId }: props) => {
         initialData.attachments &&
         initialData?.attachments?.map((link: any) => (
           <div
-            className="flex items-center p-3 gap-1 w-full bg-sky-100 border-sky-200 text-sky-700"
+            className="flex items-center justify-between p-3 gap-1 w-full bg-sky-100 border-sky-200 text-sky-700"
             key={link._id}
           >
+            <div className="flex  items-center">
+
             <File className="h-4 w-4 mr-2 flex-shrink-0" />
             <p className="text-sm line-clamp-1">{link.name}</p>
+            </div>
+            <div>
+
             {deletingId === link._id && (
               <div>
                 <Loader2 className=" h-4 w-4 mx-2 animate-spin" />
@@ -99,10 +104,11 @@ const AttachmentForm = ({ initialData, courseId }: props) => {
             )}
             {deletingId !== link._id && (
               <Trash2Icon
-                className="w-5 h-5 mx-2 text-red-600 hover:text-red-400 cursor-pointer"
-                onClick={() => handleDelete(link._id)}
+              className="w-5 h-5 mx-2 text-red-600 hover:text-red-400 cursor-pointer"
+              onClick={() => handleDelete(link._id)}
               />
             )}
+            </div>
           </div>
         ))}
       {isEditing && (
