@@ -22,15 +22,15 @@ const CourseSlider = ({courses}:CourseCarousal) => {
     },
     breakpoints: {
       640: {
-        slidesPerView: 4,
+        slidesPerView: 3,
         spaceBetween: 10,
       },
       768: {
-        slidesPerView: 4,
+        slidesPerView: 3,
         spaceBetween: 10,
       },
       1024: {
-        slidesPerView: 5,
+        slidesPerView: 4,
         spaceBetween: 20,
       },
     },
@@ -40,10 +40,10 @@ const CourseSlider = ({courses}:CourseCarousal) => {
   };
 
   return (
-    <div className='py-4'>
+    <div className='py-6'>
        <Swiper {...slideConfig}>
         {courses.map((course:any)=>(
-         <SwiperSlide>
+         <SwiperSlide >
           <CoureseCard course={course} />
          </SwiperSlide>
         ))}

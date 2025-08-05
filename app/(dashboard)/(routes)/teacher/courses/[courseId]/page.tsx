@@ -19,14 +19,14 @@ import ChaptersForm from "./_components/ChaptersForm";
 import CourseAction from "./_components/CourseAction";
 import { Banner } from "@/components/banner";
 
-const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
+const CourseIdPage = async ({ params }: { params: Promise<{ courseId: string }> }) => {
   const { userId } =await auth();
-
-
   if (!userId) redirect("/");
 
+  const {courseId} = await params;
+
   const data = await fetch(
-    `http://localhost:3000/api/courses/${params.courseId}`,
+    `http://localhost:3000/api/courses/${courseId}`,
     { method: "GET" }
   );
 
@@ -72,7 +72,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
           </div>
           <CourseAction
           disabled={!isComplete}
-          courseId={params.courseId}
+          courseId={courseId}
           isPublished={course.isPublished}
 
           />

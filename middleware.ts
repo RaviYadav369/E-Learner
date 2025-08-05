@@ -29,7 +29,7 @@ import { NextResponse } from 'next/server';
 
 // Define public routes and ignored routes
 // Define public routes and ignored routes
-const isPublicRoute = createRouteMatcher(["/api/courses(.*)", "/api/categories"]);
+const isPublicRoute = createRouteMatcher(["/api/courses(.*)", "/api/categories","/","/search"]);
 const isSignInRoute = createRouteMatcher(["/sign-in"]); // Add sign-in route to ignored routes
 const ignoredRoutes = createRouteMatcher(["/api/user(.*)"]);
 

@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import React from 'react'
 import { Flame } from 'lucide-react'
 
 const WeeklyStreak = () => {
     return (
-        <div className='w-4/5 border mx-auto outter-container flex m-5 p-4 py-6 rounded-xl shadow-md '>
+        <div className='w-11/12 border mx-auto outter-container flex m-5 p-4 py-6 rounded-xl shadow-md '>
             <div className='w-2/5 gap-1 border-blue-600 flex flex-col justify-center left-container pb-5 bg-slate-700 flex-shrink-0'>
                 <h2 className='text-xl font-semibold '>Weekly streak</h2>
                 <p className='text-xs '>Well done! You're on your way to reaching your goals.</p>

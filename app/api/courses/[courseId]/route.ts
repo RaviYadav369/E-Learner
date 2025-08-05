@@ -22,6 +22,7 @@ const Video = new Mux({
 export async function GET(req: Request, { params }: props) {
   try {
     connectToDb();
+    console.log('courseId',params.courseId)
     const { courseId } = params;
 
     const courses = await Course.findById({ _id: courseId })

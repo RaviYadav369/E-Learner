@@ -8,14 +8,12 @@ interface EditorProp {
   value: string;
 }
 
+const ReactQuill = dynamic(() => import("react-quill"), {
+      ssr: false,
+      loading: () => <p>Loading editor...</p>,
+    })
+
 export const Editor = ({ onChange, value }: EditorProp) => {
-  const ReactQuill = useMemo(
-    () =>
-      dynamic(() => import("react-quill"), {
-        ssr: false,
-      }),
-    []
-  );
 
   return (
     <div className="bg-white">

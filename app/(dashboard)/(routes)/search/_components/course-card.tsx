@@ -2,7 +2,7 @@
 import { ICourse } from "@/lib/models/course.model";
 import Image from "next/image";
 import React from "react";
-import VideoImage from "../public/video.png";
+import VideoImage from "@/public/video.png";
 import { Link } from "lucide-react";
 
 interface CourseCardProps {
@@ -11,7 +11,7 @@ interface CourseCardProps {
 
 const CoureseCard = ({ course }: CourseCardProps) => {
   return (
-    <div className="w-full mx-auto flex flex-col justify-between h-[420px]">
+    <div className="border-2 p-3 rounded-lg shadow-lg border-black mx-auto flex flex-col justify-between h-[420px]">
       <div className="w-full">
         <a href={`/course/${course._id}`} className="block">
           <div className="flex gap-3 flex-col">

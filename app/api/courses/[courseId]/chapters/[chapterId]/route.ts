@@ -21,7 +21,7 @@ const Video = new Mux({
 export async function GET(req: Request, { params }: props) {
   try {
     connectToDb();
-    const { courseId, chapterId } = params;
+    const { courseId, chapterId } = await params;
 
     const chapter = await Chapter.findOne({
       _id: chapterId,

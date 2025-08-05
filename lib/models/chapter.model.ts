@@ -1,6 +1,19 @@
 import mongoose, { model } from "mongoose";
 
-const chapterSchema = new mongoose.Schema({
+export interface IChapter extends Document {
+  title: string;
+  description?: string; // Optional field
+  videoUrl: string;
+  position: number;
+  isPublished: boolean;
+  isFree: boolean;
+  muxData?: mongoose.Types.ObjectId; 
+  courseId: mongoose.Types.ObjectId;
+  userProgress?: mongoose.Types.ObjectId[]; 
+  createdAt: Date;
+}
+
+const chapterSchema = new mongoose.Schema<IChapter>({
   title: { type: String, require: true },
   description: String,
   videoUrl: { type: String, require: true },
@@ -26,5 +39,5 @@ const chapterSchema = new mongoose.Schema({
   },
 });
 
-const Chapter = mongoose.models.Chapter || mongoose.model("Chapter",chapterSchema)
+const Chapter = mongoose.models.Chapter || mongoose.model<IChapter>("Chapter",chapterSchema)
 export default Chapter;

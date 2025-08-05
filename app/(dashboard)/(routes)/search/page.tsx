@@ -1,7 +1,8 @@
 import React from "react";
 import { SearchInput } from "./_components/search-input";
 import Categories from "./_components/categories";
-import CoureseCard from "@/components/course-card";
+import CoureseCard from "./_components/course-card";
+
 
 const page = async () => {
   const response = await fetch(`http://localhost:3000/api/categories`, {
@@ -67,11 +68,11 @@ const page = async () => {
       <div className="px-6 pt-6 md:hidden mb:mb-0 block">
         <SearchInput />
       </div>
-      <div className="p-6">
+      <div className="p-4">
         <Categories items={categories.categoryList} />
       </div>
       <div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid md:grid-cols-2 gap-5 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 p-4">
           {courses.courseList.map((course:any) => (
             <CoureseCard 
             key={course.title}
